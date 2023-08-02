@@ -1,105 +1,33 @@
-import React, { useRef, useState } from 'react';
-import Webcam from 'react-webcam';
+import React from 'react';
+import CameraView from './components/CameraView';
+import PhotoCapture from './components/PhotoCapture';
+import VideoRecording from './components/VideoRecording';
 
-const App = () => {
-  const webcamRef = useRef(null);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [recording, setRecording] = useState(false);
-  const [mediaBlob, setMediaBlob] = useState(null);
-
-  const captureImage = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImageSrc(imageSrc);
-  };
-
-  const toggleRecording = () => {
-    if (!recording) {
-      setRecording(true);
-      const chunks = [];
-      const stream = webcamRef.current.stream;
-      //   const mediaRecorder = new MediaRecorder(stream);
-
-      //   mediaRecorder.ondataavailable = (e) => {
-      //     chunks.push(e.data);
-      //   };
-
-      //   mediaRecorder.onstop = () => {
-      //     const blob = new Blob(chunks, { type: 'video/webm' });
-      //     setMediaBlob(blob);
-      //     setRecording(false);
-      //   };
-
-      //   mediaRecorder.start();
-      // } else {
-      //   mediaRecorder.stop();
-    }
-  };
-
-  const downloadMedia = () => {
-    const url = URL.createObjectURL(mediaBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'recording.webm';
-    link.click();
+function App() {
+  const handleCameraError = (errorMessage) => {
+    console.error('Camera Error:', errorMessage);
+    alert('Camera Error:', errorMessage);
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-3xl font-bold mb-4 text-center">Webcam App</h1>
-      <div className="flex flex-col items-center">
-        <Webcam
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          className="border border-gray-500 mb-4"
-        />
-        <div className="flex mb-4">
-          {!recording ? (
-            <button
-              onClick={captureImage}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Take Photo
-            </button>
-          ) : (
-            <button
-              onClick={toggleRecording}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Stop Recording
-            </button>
-          )}
-          <button
-            onClick={toggleRecording}
-            className={`ml-4 ${recording
-              ? 'bg-red-500 hover:bg-red-700'
-              : 'bg-green-500 hover:bg-green-700'
-              } text-white font-bold py-2 px-4 rounded`}
-          >
-            {recording ? 'Stop Recording' : 'Start Recording'}
-          </button>
+    <div className="bg-slate-200 p-4">
+      <div className="max-w-xl mx-auto p-4 bg-slate-300 rounded shadow-lg shadow-slate-500">
+        <h1 className="text-3xl font-semibold mb-4">React Webcam App</h1>
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Camera View</h2>
+          <CameraView onError={handleCameraError} />
         </div>
-        {imageSrc && (
-          <img src={imageSrc} alt="Captured" className="mb-4" />
-        )}
-        {mediaBlob && (
-          <div>
-            <video
-              src={URL.createObjectURL(mediaBlob)}
-              controls
-              className="mb-4"
-            />
-            <button
-              onClick={downloadMedia}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Download
-            </button>
-          </div>
-        )}
+        <div className="mb-4">
+          <h2 className="text-xl font-semibold mb-2">Photo Capture</h2>
+          <PhotoCapture />
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Video Recording</h2>
+          <VideoRecording />
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default App;
