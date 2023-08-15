@@ -15,11 +15,11 @@ const VideoRecording = () => {
         setRecording(false);
     };
 
-    const handleDataAvailable = (event) => {
-        if (event.data.size > 0) {
-            setRecordedChunks((prev) => prev.concat(event.data));
-        }
-    };
+    // const handleDataAvailable = (event) => {
+    //     if (event.data.size > 0) {
+    //         setRecordedChunks((prev) => prev.concat(event.data));
+    //     }
+    // };
 
     const downloadVideo = () => {
         if (recordedChunks.length > 0) {
