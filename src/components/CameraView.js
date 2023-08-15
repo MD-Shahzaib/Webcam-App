@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const CameraView = ({ onError }) => {
     const videoRef = useRef(null);

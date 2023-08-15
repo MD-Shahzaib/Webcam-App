@@ -5,8 +5,8 @@ import VideoRecording from './components/VideoRecording';
 
 function App() {
   const handleCameraError = (errorMessage) => {
-    console.error('Camera Error:', errorMessage);
-    alert('Camera Error:', errorMessage);
+    alert('Please! Connect Your Camera: ' + errorMessage);
+    console.error(errorMessage);
   };
 
   return (
